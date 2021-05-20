@@ -1,0 +1,33 @@
+Package: eqt
+Title: Small-Sample Equating
+Version: 0.0.0.9000
+Authors@R:
+    person(
+      given = "Kylie",
+      family = "Gorney",
+      role = c("aut", "cre"),
+      email = "kyliengorney@gmail.com",
+      comment = c(ORCID = "0000-0002-8924-0726")
+    )
+Description: A small, lightweight package containing tools commonly used to 
+    perform small-sample equating. Identity, mean, linear, and circle-arc
+    equating are possible as well as the nominal weights, Tucker, Levine
+    observed-score, Levine true-score, and chained methods. Any number of
+    individual equatings may be combined to produce a weighted result. Bootstrap
+    estimates are also available.
+License: GPL-3
+URL: https://github.com/kyliegorney/eqt
+BugReports: https://github.com/kyliegorney/eqt/issues
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Depends:
+    R (>= 4.0.0)
+Imports: 
+    stats
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

@@ -1,0 +1,100 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r Setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "75%"
+)
+```
+
+# eqt
+
+## Overview
+
+The **eqt** package contains a collection of tools commonly used to perform **small-sample equating**. The following transformations are possible:
+
+* Identity
+* Mean
+* Linear
+* Circle-arc
+
+If anchor items are included, then any of the following methods may be applied:
+
+* Nominal weights
+* Tucker
+* Levine observed-score
+* Levine true-score
+* Chained
+
+## Installation
+
+Install the development version from GitHub.
+
+```{r GitHub, message = FALSE}
+# install.packages("devtools")
+devtools::install_github("kyliegorney/eqt")
+```
+
+## Example: Random Groups Design
+
+In the following examples, consider a 100-item test that is taken by 25 examinees. Use the data stored in the object `random_groups_dat`, and let `x` and `y` be the item responses from the new and old forms, respectively.
+
+```{r eqt random groups}
+library(eqt)
+
+# Extract data
+list2env(random_groups_dat, envir = globalenv())
+
+# Identity equating
+(id <- eqt(x, y))
+
+# Mean equating
+(me <- eqt(x, y, linear = "mean"))
+
+# Linear equating
+(li <- eqt(x, y, linear = "linear"))
+```
+
+Individual equatings may be combined to form a weighted result using `multipleqt()`.
+
+```{r multipleqt}
+(id_li <- multipleqt(id, li))
+```
+
+Use `boot()` to compute the bootstrap standard errors.
+
+```{r boot}
+# Use an eqt object
+set.seed(1004)
+boot(li)
+
+# Use a multipleqt object
+set.seed(1004)
+boot(id_li)
+```
+
+## Example: Common-Item Nonequivalent Groups Design
+
+In this example, suppose the two test forms have the first 30 items in common. Use the data stored in the object `nonequiv_groups_dat`, and let `x` and `y` be the item responses from the new and old forms, respectively.
+
+```{r eqt nonequiv groups}
+# Extract data
+list2env(nonequiv_groups_dat, envir = globalenv())
+
+# Tucker mean equating
+eqt(x, y, xv = 1:30, yv = 1:30, linear = "mean", method = "tucker")
+
+# Levine observed-score equating with an external anchor
+eqt(x, y, xv = 1:30, yv = 1:30, linear = "linear", method = "levine observed",
+    anchor = "external")
+
+# Simplified circle-arc with chained linear equating
+eqt(x, y, xv = 1:30, yv = 1:30, linear = "linear", method = "chained",
+    circle = "simplified")
+```
